@@ -1,0 +1,13 @@
+name: SimpleRPG
+version: ${project.version}
+main: com.tyrriel.simplerpg.SimpleRPG
+api-version: 1.13
+authors: [Tyrriel]
+depend: [ProtocolLib]
+commands:
+  class:
+    description: Class selection
+    usage: /class
+  addexp:
+    description: Admin Command
+    usage: /addexp <player> <amount>

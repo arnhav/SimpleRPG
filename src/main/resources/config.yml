@@ -1,0 +1,12 @@
+CharacterSelection:
+  world: world
+  x: 64
+  y: 8
+  z: 133
+NewStart:
+  world: world
+  x: 62
+  y: 63
+  z: 139
+rpurl: https://download.nodecdn.net/containers/nodecraft/minepack/ae19fdfe9c54ba010f69a89c4ef97a95.zip
+rphash: bd3045126d489b601bd02fcfaf2d464b1a712824
