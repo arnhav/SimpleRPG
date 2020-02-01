@@ -2,6 +2,7 @@ package com.tyrriel.simplerpg.systems.guis.playerinventory;
 
 import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
+import com.tyrriel.simplerpg.systems.items.RPGItem;
 import com.tyrriel.simplerpg.util.SpecialChars;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -32,7 +33,7 @@ public class PlayerInventoryGUI {
     public static void openCharacterInventory(Player player, int page){
         RPGCharacter character = CharacterManager.characters.get(player);
         Inventory inventory = Bukkit.createInventory(null, 54, ChatColor.WHITE + adjustedPlayerWealth(character) + SpecialChars.goldCoin());
-        List<ItemStack> characterInventory = character.getInventory();
+        List<RPGItem> characterInventory = character.getInventory();
         inventory.setItem(0, inventory());
         inventory.setItem(9, stats(character));
         inventory.setItem(18, quests());
@@ -70,7 +71,7 @@ public class PlayerInventoryGUI {
         int k = 0, p = page * 18;
         for (int i = 5; i < 53; i++){
             if (characterInventory.size() > p) {
-                ItemStack temp = characterInventory.get(p);
+                ItemStack temp = characterInventory.get(p).getItemStack();
                 inventory.setItem(i, unequippedItem(temp, p, character));
                 if (k == 2) {
                     k = 0;

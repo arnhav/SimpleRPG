@@ -1,5 +1,6 @@
 package com.tyrriel.simplerpg.systems.characters;
 
+import com.tyrriel.simplerpg.systems.items.RPGItem;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ public class RPGCharacter {
     private ItemStack[] accessories = new ItemStack[5];
     private ItemStack weapon, consumable;
     // Unequipped Items
-    private List<ItemStack> inventory = new ArrayList<>();
+    private List<RPGItem> inventory = new ArrayList<>();
 
     public RPGCharacter(UUID player, Job job){
         this(player, job, 10, 10, 1, 0, 0, 1);
@@ -140,7 +141,7 @@ public class RPGCharacter {
 
     // Item Other
 
-    public int addItemToInv(ItemStack itemStack){
+    public int addItemToInv(RPGItem itemStack){
         if (itemStack == null) return 0;
         if (inventory.size() > (backpack+1)*18){
             return -1;
@@ -154,7 +155,7 @@ public class RPGCharacter {
         inventory.remove(pos);
     }
 
-    public List<ItemStack> getInventory() {
+    public List<RPGItem> getInventory() {
         return inventory;
     }
 

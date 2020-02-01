@@ -1,15 +1,12 @@
 package com.tyrriel.simplerpg.systems.items;
 
 import com.tyrriel.simplerpg.systems.characters.Job;
-import org.apache.commons.lang.StringUtils;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
 import org.bukkit.persistence.PersistentDataType;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class RPGItem {
 
@@ -63,6 +60,11 @@ public class RPGItem {
     }
 
     public ItemStack getItemStack() {
+        ItemMeta itemMeta = itemStack.getItemMeta();
+        PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
+        pdc.set(RPGItemUtil.i, PersistentDataType.INTEGER, id);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
 
@@ -84,17 +86,6 @@ public class RPGItem {
 
     public int getValue() {
         return value;
-    }
-
-    public ItemStack getItemStackToDisplay(){
-        ItemStack temp = itemStack.clone();
-        ItemMeta itemMeta = temp.getItemMeta();
-        itemMeta.setDisplayName(RPGItemUtil.getRarityColor(rarity) + itemStack.getI18NDisplayName());
-        PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
-        pdc.set(RPGItemUtil.i, PersistentDataType.INTEGER, id);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        temp.setItemMeta(itemMeta);
-        return temp;
     }
 
 }

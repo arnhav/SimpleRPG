@@ -5,6 +5,8 @@ import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
 import com.tyrriel.simplerpg.systems.items.ItemType;
 import com.tyrriel.simplerpg.systems.items.RPGItem;
 import com.tyrriel.simplerpg.systems.items.RPGItemUtil;
+import com.tyrriel.simplerpg.systems.items.RPGWeapon;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -124,23 +126,26 @@ public class ItemUtil {
         ItemStack temp = itemStack.clone();
         ItemMeta itemMeta = temp.getItemMeta();
         RPGItem rpgItem = RPGItemUtil.getRPGItem(temp);
-        if (itemMeta.hasLore()){
-            List<String> lore = itemMeta.getLore();
-            lore.addAll(1, equippedLore(rpgItem, character.getLevel()));
-            itemMeta.setLore(lore);
-        } else {
-            itemMeta.setLore(equippedLore(rpgItem, character.getLevel()));
-        }
+        itemMeta.setDisplayName(RPGItemUtil.getRarityColor(rpgItem.getRarity()) + itemStack.getI18NDisplayName());
+        itemMeta.setLore(equippedLore(rpgItem, itemMeta.getLore(), character.getLevel()));
         PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
         pdc.set(equipped, PersistentDataType.INTEGER, 1);
         temp.setItemMeta(itemMeta);
         return temp;
     }
 
-    private static List<String> equippedLore(RPGItem rpgItem, int lvl){
+    private static List<String> equippedLore(RPGItem rpgItem, List<String> itemLore, int lvl){
         List<String> lore = new ArrayList<>();
+        lore.add(RPGItemUtil.getRarityColor(rpgItem.getRarity()) + StringUtils.capitalize(rpgItem.getItemType().toString().toLowerCase()));
+        // Put Item Stats here
+        if (rpgItem instanceof RPGWeapon){
+
+        }
+        if (itemLore != null){
+            lore.addAll(itemLore);
+        }
         int reqLvl = rpgItem.getLevel();
-        String reqL = "";
+        String reqL;
         if (reqLvl > lvl){
             reqL = ChatColor.RED + "Required Level: " + reqLvl;
         } else {
@@ -167,20 +172,24 @@ public class ItemUtil {
         ItemStack temp = itemStack.clone();
         ItemMeta itemMeta = temp.getItemMeta();
         RPGItem rpgItem = RPGItemUtil.getRPGItem(temp);
-        if (itemMeta.hasLore()){
-            List<String> lore = itemMeta.getLore();
-            lore.addAll(unequippedLore(rpgItem, character.getLevel()));
-            itemMeta.setLore(lore);
-        } else {
-            itemMeta.setLore(unequippedLore(rpgItem, character.getLevel()));
-        }
+        itemMeta.setDisplayName(RPGItemUtil.getRarityColor(rpgItem.getRarity()) + itemStack.getI18NDisplayName());
+        itemMeta.setLore(unequippedLore(rpgItem, itemMeta.getLore(), character.getLevel()));
         PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
         pdc.set(slot, PersistentDataType.INTEGER, s);
         temp.setItemMeta(itemMeta);
         return temp;
     }
 
-    private static List<String> unequippedLore(RPGItem rpgItem, int lvl){
+    private static List<String> unequippedLore(RPGItem rpgItem, List<String> itemLore, int lvl){
+        List<String> lore = new ArrayList<>();
+        lore.add(RPGItemUtil.getRarityColor(rpgItem.getRarity()) + StringUtils.capitalize(rpgItem.getItemType().toString().toLowerCase()));
+        // Put Item Stats here
+        if (rpgItem instanceof RPGWeapon){
+
+        }
+        if (itemLore != null){
+            lore.addAll(itemLore);
+        }
         int reqLvl = rpgItem.getLevel();
         String reqL;
         if (reqLvl > lvl){
@@ -194,19 +203,22 @@ public class ItemUtil {
         if (reqLvl < 100){
             reqL = " " + reqL;
         }
-        if (rpgItem.getItemType() == ItemType.JUNK)
-            return Arrays.asList(
+        if (rpgItem.getItemType() == ItemType.JUNK) {
+            lore.addAll(Arrays.asList(
                     " ",
                     ChatColor.GRAY + "------------------------------",
                     ChatColor.DARK_GRAY + "Sell Value: " + ChatColor.WHITE + rpgItem.getValue() + " " + SpecialChars.goldCoin()
-            );
-        return Arrays.asList(
-                " ",
-                ChatColor.WHITE + SpecialChars.leftClick() + " Equip",
-                ChatColor.WHITE + SpecialChars.rightClick() + " Drop           " + reqL,
-                ChatColor.GRAY + "------------------------------",
-                ChatColor.DARK_GRAY + "Sell Value: " + ChatColor.WHITE + rpgItem.getValue() + " " + SpecialChars.goldCoin()
-        );
+            ));
+        } else {
+            lore.addAll(Arrays.asList(
+                    " ",
+                    ChatColor.WHITE + SpecialChars.leftClick() + " Equip",
+                    ChatColor.WHITE + SpecialChars.rightClick() + " Drop           " + reqL,
+                    ChatColor.GRAY + "------------------------------",
+                    ChatColor.DARK_GRAY + "Sell Value: " + ChatColor.WHITE + rpgItem.getValue() + " " + SpecialChars.goldCoin()
+            ));
+        }
+        return lore;
     }
 
     public static ItemStack scroll(ItemStack itemStack, int s){
