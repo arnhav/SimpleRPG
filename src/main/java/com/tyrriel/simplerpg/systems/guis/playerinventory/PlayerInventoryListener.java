@@ -29,12 +29,16 @@ public class PlayerInventoryListener implements Listener {
 
         RPGCharacter RPGCharacter = CharacterManager.characters.get(player);
         if (event.getReason() == InventoryCloseEvent.Reason.PLAYER){
-            player.getInventory().setItem(2, ItemUtil.makeWeaponItem(RPGCharacter.getWeapon()));
-            player.getInventory().setItem(8, RPGCharacter.getConsumable());
-            player.getInventory().setHelmet(ItemUtil.makeArmorItem(RPGCharacter.getHelm()));
-            player.getInventory().setChestplate(ItemUtil.makeArmorItem(RPGCharacter.getChest()));
-            player.getInventory().setLeggings(ItemUtil.makeArmorItem(RPGCharacter.getLegs()));
-            player.getInventory().setBoots(ItemUtil.makeArmorItem(RPGCharacter.getBoots()));
+            try {
+                player.getInventory().setItem(2, ItemUtil.makeWeaponItem(RPGCharacter.getWeapon().getItemStack()));
+                player.getInventory().setItem(8, RPGCharacter.getConsumable().getItemStack());
+                player.getInventory().setHelmet(ItemUtil.makeArmorItem(RPGCharacter.getHelm().getItemStack()));
+                player.getInventory().setChestplate(ItemUtil.makeArmorItem(RPGCharacter.getChest().getItemStack()));
+                player.getInventory().setLeggings(ItemUtil.makeArmorItem(RPGCharacter.getLegs().getItemStack()));
+                player.getInventory().setBoots(ItemUtil.makeArmorItem(RPGCharacter.getBoots().getItemStack()));
+            } catch (NullPointerException e){
+
+            }
         }
 
         open.remove(top);
@@ -89,9 +93,8 @@ public class PlayerInventoryListener implements Listener {
                     if (rpgItem.getItemType() != ItemType.JUNK){
                         if (rpgItem.getLevel() <= RPGCharacter.getLevel()) {
                             int pos = ItemUtil.getSlot(itemStack);
-                            ItemStack temp = RPGCharacter.getInventory().get(pos).getItemStack();
-                            ItemUtil.removeInventory(temp);
-                            if (modifySlot(RPGCharacter, rpgItem, temp) == 0) {
+                            ItemUtil.removeInventory(rpgItem.getItemStack());
+                            if (modifySlot(RPGCharacter, rpgItem, rpgItem) == 0) {
                                 RPGCharacter.removeFromInv(pos);
                                 openCharacterInventory(player, 0);
                             }
@@ -216,69 +219,69 @@ public class PlayerInventoryListener implements Listener {
         PlayerListener.clearHotbar(player);
     }
 
-    private int modifySlot(RPGCharacter RPGCharacter, RPGItem rpgItem, ItemStack itemStack){
+    private int modifySlot(RPGCharacter RPGCharacter, RPGItem rpgItem, RPGItem newItem){
         int value = -1;
         RPGItem returnedItem;
         switch (rpgItem.getItemType()){
             case HELMET:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getHelm());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getHelm().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setHelm(itemStack);
+                    RPGCharacter.setHelm(newItem);
                 break;
             case CHESTPLATE:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getChest());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getChest().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setChest(itemStack);
+                    RPGCharacter.setChest(newItem);
                 break;
             case LEGGINGS:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getLegs());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getLegs().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setLegs(itemStack);
+                    RPGCharacter.setLegs(newItem);
                 break;
             case BOOTS:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getBoots());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getBoots().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setBoots(itemStack);
+                    RPGCharacter.setBoots(newItem);
                 break;
             case WEAPON:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getWeapon());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getWeapon().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setWeapon(itemStack);
+                    RPGCharacter.setWeapon(newItem);
                 break;
             case CONSUMABLE:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getConsumable());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getConsumable().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setConsumable(itemStack);
+                    RPGCharacter.setConsumable(newItem);
                 break;
             case NECKLACE:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getNecklace());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getNecklace().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setNecklace(itemStack);
+                    RPGCharacter.setNecklace(newItem);
                 break;
             case EARRINGS:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getEarrings());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getEarrings().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setEarrings(itemStack);
+                    RPGCharacter.setEarrings(newItem);
                 break;
             case RING:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getEarrings());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getEarrings().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setRing(itemStack);
+                    RPGCharacter.setRing(newItem);
                 break;
             case BRACERS:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getBracers());
+                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getBracers().getItemStack());
                 value = RPGCharacter.addItemToInv(returnedItem);
                 if (value == 0)
-                    RPGCharacter.setBracers(itemStack);
+                    RPGCharacter.setBracers(newItem);
                 break;
         }
         return value;

@@ -53,19 +53,19 @@ public class PlayerInventoryGUI {
         }
 
         // Set armor
-        inventory.setItem(11, equippedItem(character.getHelm(), character));
-        inventory.setItem(20, equippedItem(character.getChest(), character));
-        inventory.setItem(29, equippedItem(character.getLegs(), character));
-        inventory.setItem(38, equippedItem(character.getBoots(), character));
+        inventory.setItem(11, equippedItem(character.getHelm().getItemStack(), character));
+        inventory.setItem(20, equippedItem(character.getChest().getItemStack(), character));
+        inventory.setItem(29, equippedItem(character.getLegs().getItemStack(), character));
+        inventory.setItem(38, equippedItem(character.getBoots().getItemStack(), character));
         // Set accessories
-        inventory.setItem(10, equippedItem(character.getNecklace(), character));
-        inventory.setItem(12, equippedItem(character.getEarrings(), character));
-        inventory.setItem(19, equippedItem(character.getRing(), character));
-        inventory.setItem(21, equippedItem(character.getBracers(), character));
+        inventory.setItem(10, equippedItem(character.getNecklace().getItemStack(), character));
+        inventory.setItem(12, equippedItem(character.getEarrings().getItemStack(), character));
+        inventory.setItem(19, equippedItem(character.getRing().getItemStack(), character));
+        inventory.setItem(21, equippedItem(character.getBracers().getItemStack(), character));
         // Set weapons
-        inventory.setItem(30, equippedItem(character.getWeapon(), character));
+        inventory.setItem(30, equippedItem(character.getWeapon().getItemStack(), character));
         // Set consumable
-        inventory.setItem(46, equippedItem(character.getConsumable(), character));
+        inventory.setItem(46, equippedItem(character.getConsumable().getItemStack(), character));
         // Set inventory
         int k = 0, p = page * 18;
         for (int i = 5; i < 53; i++){

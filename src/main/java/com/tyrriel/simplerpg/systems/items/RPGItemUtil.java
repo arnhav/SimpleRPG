@@ -30,6 +30,7 @@ public class RPGItemUtil {
     }
 
     public static boolean isRPGItem(ItemStack itemStack){
+        if (itemStack == null) return false;
         ItemMeta itemMeta = itemStack.getItemMeta();
         if (itemMeta == null) return false;
         PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
