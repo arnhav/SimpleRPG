@@ -62,7 +62,6 @@ public class PlayerInventoryGUI {
         inventory.setItem(12, equippedItem(character.getEarrings(), character));
         inventory.setItem(19, equippedItem(character.getRing(), character));
         inventory.setItem(21, equippedItem(character.getBracers(), character));
-        inventory.setItem(28, equippedItem(character.getPendant(), character));
         // Set weapons
         inventory.setItem(30, equippedItem(character.getWeapon(), character));
         // Set consumable
