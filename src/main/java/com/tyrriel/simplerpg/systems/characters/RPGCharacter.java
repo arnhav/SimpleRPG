@@ -20,8 +20,8 @@ public class RPGCharacter {
     private int[] stats = new int[6];
     // Equipped Items
     private ItemStack[] armor = new ItemStack[4];
-    private ItemStack[] accessories = new ItemStack[5];
-    private ItemStack weapon, consumable;
+    private ItemStack[] accessories = new ItemStack[4];
+    private ItemStack weapon, offhand, consumable;
     // Unequipped Items
     private List<RPGItem> inventory = new ArrayList<>();
 
@@ -81,10 +81,6 @@ public class RPGCharacter {
         accessories[3] = itemStack;
     }
 
-    public void setPendant(ItemStack itemStack){
-        accessories[4] = itemStack;
-    }
-
     public void setWeapon(ItemStack weapon) {
         this.weapon = weapon;
     }
@@ -125,10 +121,6 @@ public class RPGCharacter {
 
     public ItemStack getBracers(){
         return accessories[3];
-    }
-
-    public ItemStack getPendant(){
-        return accessories[4];
     }
 
     public ItemStack getWeapon() {

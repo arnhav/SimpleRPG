@@ -12,7 +12,6 @@ public enum ItemType {
     EARRINGS,
     RING,
     BRACERS,
-    PENDANT,
     JUNK
 
 }

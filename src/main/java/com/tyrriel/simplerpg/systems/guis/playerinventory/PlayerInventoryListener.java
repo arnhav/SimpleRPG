@@ -280,12 +280,6 @@ public class PlayerInventoryListener implements Listener {
                 if (value == 0)
                     RPGCharacter.setBracers(itemStack);
                 break;
-            case PENDANT:
-                returnedItem = RPGItemUtil.getRPGItem(RPGCharacter.getPendant());
-                value = RPGCharacter.addItemToInv(returnedItem);
-                if (value == 0)
-                    RPGCharacter.setPendant(itemStack);
-                break;
         }
         return value;
     }
