@@ -5,12 +5,16 @@ import com.tyrriel.simplerpg.systems.items.ItemType;
 import com.tyrriel.simplerpg.systems.items.Rarity;
 import com.tyrriel.simplerpg.systems.items.WeaponType;
 import org.bukkit.Material;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class ItemsManager {
@@ -23,6 +27,8 @@ public class ItemsManager {
 
     // Plugin instance
     private JavaPlugin plugin;
+
+    private HashMap<String, ConfigurationItem> items = new HashMap<>();
 
     public ItemsManager(JavaPlugin plugin){
         this.plugin = plugin;
@@ -40,7 +46,6 @@ public class ItemsManager {
                 File exampleItem = new File(itemsFolder, "exampleItem.yml");
                 data = YamlConfiguration.loadConfiguration(exampleItem);
                 if (!exampleItem.exists()){
-                    data.set("ID", 0);
                     data.set("Material", Material.GRASS_BLOCK.toString());
                     data.set("Texture", 0);
                     data.set("Name", "Grass Block of Awesomeness");
@@ -50,6 +55,18 @@ public class ItemsManager {
                     data.set("Class", Job.NONE.toString());
                     data.set("Level", 0);
                     data.set("Value", 0);
+                    data.set("Stats.strengthmin", 0);
+                    data.set("Stats.strengthmax", 0);
+                    data.set("Stats.intellimin", 0);
+                    data.set("Stats.intellimax", 0);
+                    data.set("Stats.speedmin", 0);
+                    data.set("Stats.speedmax", 0);
+                    data.set("Stats.vitalitymin", 0);
+                    data.set("Stats.vitalitymax", 0);
+                    data.set("Stats.dexteritymin", 0);
+                    data.set("Stats.dexteritymax", 0);
+                    data.set("Stats.luckmin", 0);
+                    data.set("Stats.luckmax", 0);
                     data.save(exampleItem);
                 }
 
@@ -69,7 +86,6 @@ public class ItemsManager {
         for (File file : files){
             data = YamlConfiguration.loadConfiguration(file);
 
-            int id = data.getInt("ID");
             Material material = Material.valueOf(data.getString("Material"));
             int texture = data.getInt("Texture");
             String name = data.getString("Name");
@@ -79,6 +95,24 @@ public class ItemsManager {
             Job job = Job.valueOf(data.getString("Class"));
             int level = data.getInt("Level");
             int value = data.getInt("Value");
+            int[] stats = new int[12];
+            ConfigurationSection configSection = data.getConfigurationSection("Stats");
+            if (configSection != null) {
+                int i = 0;
+                for (String path: configSection.getKeys(false)){
+                    stats[i] = configSection.getInt(path);
+                    i++;
+                }
+            }
+
+            ItemStack itemStack = new ItemStack(material);
+            ItemMeta itemMeta = itemStack.getItemMeta();
+            itemMeta.setCustomModelData(texture);
+            itemMeta.setDisplayName(name);
+            itemMeta.setLore(lore);
+            itemStack.setItemMeta(itemMeta);
+
+            ConfigurationItem configurationItem = new ConfigurationItem(itemStack, rarity, itemType, job, level, value, stats);
 
             if (itemType == ItemType.WEAPON){
                 WeaponType weaponType = WeaponType.valueOf(data.getString("WeaponType"));
@@ -86,9 +120,13 @@ public class ItemsManager {
                 int minDamage = data.getInt("MinDamage");
                 int maxDamage = data.getInt("MaxDamage");
 
-            } else {
-
+                configurationItem.setWeaponType(weaponType);
+                configurationItem.setCooldown(cooldown);
+                configurationItem.setMinDamage(minDamage);
+                configurationItem.setMaxDamage(maxDamage);
             }
+
+            items.put(file.getName(), configurationItem);
         }
     }
 

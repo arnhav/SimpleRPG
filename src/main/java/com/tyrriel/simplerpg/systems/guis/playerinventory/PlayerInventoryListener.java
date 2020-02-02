@@ -215,7 +215,21 @@ public class PlayerInventoryListener implements Listener {
     private int modifySlot(RPGCharacter RPGCharacter, ItemType itemType, ItemStack itemStack){
         int value = -1;
         switch (itemType){
-            case HELMET:
+            case WEAPON:
+                value = RPGCharacter.addItemToInv(RPGCharacter.getWeapon());
+                if (value == 0)
+                    RPGCharacter.setWeapon(itemStack);
+                break;
+            case CONSUMABLE:
+                value = RPGCharacter.addItemToInv(RPGCharacter.getConsumable());
+                if (value == 0)
+                    RPGCharacter.setConsumable(itemStack);
+                break;
+            case ARMOR:
+                break;
+            case ACCESSORY:
+                break;
+                /*case HELMET:
                 value = RPGCharacter.addItemToInv(RPGCharacter.getHelm());
                 if (value == 0)
                     RPGCharacter.setHelm(itemStack);
@@ -234,18 +248,8 @@ public class PlayerInventoryListener implements Listener {
                 value = RPGCharacter.addItemToInv(RPGCharacter.getBoots());
                 if (value == 0)
                     RPGCharacter.setBoots(itemStack);
-                break;
-            case WEAPON:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getWeapon());
-                if (value == 0)
-                    RPGCharacter.setWeapon(itemStack);
-                break;
-            case CONSUMABLE:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getConsumable());
-                if (value == 0)
-                    RPGCharacter.setConsumable(itemStack);
-                break;
-            case NECKLACE:
+                break;*/
+            /*case NECKLACE:
                 value = RPGCharacter.addItemToInv(RPGCharacter.getNecklace());
                 if (value == 0)
                     RPGCharacter.setNecklace(itemStack);
@@ -264,7 +268,7 @@ public class PlayerInventoryListener implements Listener {
                 value = RPGCharacter.addItemToInv(RPGCharacter.getBracers());
                 if (value == 0)
                     RPGCharacter.setBracers(itemStack);
-                break;
+                break;*/
         }
         return value;
     }
