@@ -119,13 +119,13 @@ public class FileManager {
             int level = data.getInt("Level");
             int value = data.getInt("Value");
 
-            WeaponType weaponType = WeaponType.valueOf(data.getString("WeaponType"));
-            int cooldown = data.getInt("Cooldown");
-            int minDamage = data.getInt("MinDamage");
-            int maxDamage = data.getInt("MaxDamage");
-
             RPGItem rpgItem = new RPGItem(id, ItemUtil.item(material, texture, name, lore), rarity, itemType, job, level, value);
             if (itemType == ItemType.WEAPON){
+                WeaponType weaponType = WeaponType.valueOf(data.getString("WeaponType"));
+                int cooldown = data.getInt("Cooldown");
+                int minDamage = data.getInt("MinDamage");
+                int maxDamage = data.getInt("MaxDamage");
+
                 RPGWeapon rpgWeapon = new RPGWeapon(rpgItem, weaponType, cooldown, minDamage, maxDamage);
                 items.put(id, rpgWeapon);
             } else {

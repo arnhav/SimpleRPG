@@ -11,3 +11,9 @@ commands:
   addexp:
     description: Admin Command
     usage: /addexp <player> <amount>
+  setmoney:
+    description: Admin Command
+    usage: /setmoney <player> <amount>
+  additem:
+    description: Admin Command
+    usage: /additem <player> <id>

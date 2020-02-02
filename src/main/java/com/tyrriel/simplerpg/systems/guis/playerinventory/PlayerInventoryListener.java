@@ -29,16 +29,12 @@ public class PlayerInventoryListener implements Listener {
 
         RPGCharacter RPGCharacter = CharacterManager.characters.get(player);
         if (event.getReason() == InventoryCloseEvent.Reason.PLAYER){
-            try {
-                player.getInventory().setItem(2, ItemUtil.makeWeaponItem(RPGCharacter.getWeapon().getItemStack()));
-                player.getInventory().setItem(8, RPGCharacter.getConsumable().getItemStack());
-                player.getInventory().setHelmet(ItemUtil.makeArmorItem(RPGCharacter.getHelm().getItemStack()));
-                player.getInventory().setChestplate(ItemUtil.makeArmorItem(RPGCharacter.getChest().getItemStack()));
-                player.getInventory().setLeggings(ItemUtil.makeArmorItem(RPGCharacter.getLegs().getItemStack()));
-                player.getInventory().setBoots(ItemUtil.makeArmorItem(RPGCharacter.getBoots().getItemStack()));
-            } catch (NullPointerException e){
-
-            }
+            player.getInventory().setItem(2, ItemUtil.makeWeaponItem(RPGCharacter.getWeapon().getItemStack()));
+            player.getInventory().setItem(8, RPGCharacter.getConsumable().getItemStack());
+            player.getInventory().setHelmet(ItemUtil.makeArmorItem(RPGCharacter.getHelm().getItemStack()));
+            player.getInventory().setChestplate(ItemUtil.makeArmorItem(RPGCharacter.getChest().getItemStack()));
+            player.getInventory().setLeggings(ItemUtil.makeArmorItem(RPGCharacter.getLegs().getItemStack()));
+            player.getInventory().setBoots(ItemUtil.makeArmorItem(RPGCharacter.getBoots().getItemStack()));
         }
 
         open.remove(top);

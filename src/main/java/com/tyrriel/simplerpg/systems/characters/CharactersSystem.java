@@ -7,6 +7,8 @@ public class CharactersSystem {
     public CharactersSystem(JavaPlugin plugin){
         plugin.getCommand("class").setExecutor(new ClassCommand());
         plugin.getCommand("addexp").setExecutor(new CommandHandler());
+        plugin.getCommand("setmoney").setExecutor(new CommandHandler());
+        plugin.getCommand("additem").setExecutor(new CommandHandler());
     }
 
 }
