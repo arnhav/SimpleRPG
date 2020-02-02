@@ -2,8 +2,6 @@ package com.tyrriel.simplerpg.systems.interactables;
 
 import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
-import com.tyrriel.simplerpg.systems.items.RPGItem;
-import com.tyrriel.simplerpg.systems.items.RPGItemUtil;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
@@ -42,8 +40,7 @@ public class InteractableUtil {
         if (!(entity instanceof ArmorStand)) return;
         ArmorStand armorStand = (ArmorStand) entity;
         ItemStack itemStack = armorStand.getItem(EquipmentSlot.HEAD);
-        RPGItem rpgItem = RPGItemUtil.getRPGItem(itemStack);
-        if (RPGCharacter.addItemToInv(rpgItem) == -1) return;
+        if (RPGCharacter.addItemToInv(itemStack) == -1) return;
         for (Entity pass : armorStand.getPassengers()){
             pass.remove();
         }

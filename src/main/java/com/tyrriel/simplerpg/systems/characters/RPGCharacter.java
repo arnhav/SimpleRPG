@@ -1,6 +1,6 @@
 package com.tyrriel.simplerpg.systems.characters;
 
-import com.tyrriel.simplerpg.systems.items.RPGItem;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,11 +18,11 @@ public class RPGCharacter {
     private int unallocatedstats;
     private int[] stats = new int[6];
     // Equipped Items
-    private RPGItem[] armor = new RPGItem[4];
-    private RPGItem[] accessories = new RPGItem[4];
-    private RPGItem weapon, offhand, consumable;
+    private ItemStack[] armor = new ItemStack[4];
+    private ItemStack[] accessories = new ItemStack[4];
+    private ItemStack weapon, offhand, consumable;
     // Unequipped Items
-    private List<RPGItem> inventory = new ArrayList<>();
+    private List<ItemStack> inventory = new ArrayList<>();
 
     public RPGCharacter(UUID player, Job job){
         this(player, job, 10, 10, 1, 0, 0, 1);
@@ -48,91 +48,91 @@ public class RPGCharacter {
 
     // Item Setters
 
-    public void setHelm(RPGItem itemStack){
+    public void setHelm(ItemStack itemStack){
         armor[0] = itemStack;
     }
 
-    public void setChest(RPGItem itemStack){
+    public void setChest(ItemStack itemStack){
         armor[1] = itemStack;
     }
 
-    public void setLegs(RPGItem itemStack){
+    public void setLegs(ItemStack itemStack){
         armor[2] = itemStack;
     }
 
-    public void setBoots(RPGItem itemStack){
+    public void setBoots(ItemStack itemStack){
         armor[3] = itemStack;
     }
 
-    public void setNecklace(RPGItem itemStack){
+    public void setNecklace(ItemStack itemStack){
         accessories[0] = itemStack;
     }
 
-    public void setEarrings(RPGItem itemStack){
+    public void setEarrings(ItemStack itemStack){
         accessories[1] = itemStack;
     }
 
-    public void setRing(RPGItem itemStack){
+    public void setRing(ItemStack itemStack){
         accessories[2] = itemStack;
     }
 
-    public void setBracers(RPGItem itemStack){
+    public void setBracers(ItemStack itemStack){
         accessories[3] = itemStack;
     }
 
-    public void setWeapon(RPGItem weapon) {
+    public void setWeapon(ItemStack weapon) {
         this.weapon = weapon;
     }
 
-    public void setConsumable(RPGItem consumable) {
+    public void setConsumable(ItemStack consumable) {
         this.consumable = consumable;
     }
     
     // Item Getters
 
-    public RPGItem getHelm(){
+    public ItemStack getHelm(){
         return armor[0];
     }
 
-    public RPGItem getChest(){
+    public ItemStack getChest(){
         return armor[1];
     }
 
-    public RPGItem getLegs(){
+    public ItemStack getLegs(){
         return armor[2];
     }
 
-    public RPGItem getBoots(){
+    public ItemStack getBoots(){
         return armor[3];
     }
 
-    public RPGItem getNecklace(){
+    public ItemStack getNecklace(){
         return accessories[0];
     }
 
-    public RPGItem getEarrings(){
+    public ItemStack getEarrings(){
         return accessories[1];
     }
 
-    public RPGItem getRing(){
+    public ItemStack getRing(){
         return accessories[2];
     }
 
-    public RPGItem getBracers(){
+    public ItemStack getBracers(){
         return accessories[3];
     }
 
-    public RPGItem getWeapon() {
+    public ItemStack getWeapon() {
         return weapon;
     }
 
-    public RPGItem getConsumable() {
+    public ItemStack getConsumable() {
         return consumable;
     }
 
     // Item Other
 
-    public int addItemToInv(RPGItem itemStack){
+    public int addItemToInv(ItemStack itemStack){
         if (itemStack == null) return 0;
         if (inventory.size() > (backpack+1)*18){
             return -1;
@@ -146,7 +146,7 @@ public class RPGCharacter {
         inventory.remove(pos);
     }
 
-    public List<RPGItem> getInventory() {
+    public List<ItemStack> getInventory() {
         return inventory;
     }
 

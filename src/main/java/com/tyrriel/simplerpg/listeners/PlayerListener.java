@@ -1,12 +1,12 @@
 package com.tyrriel.simplerpg.listeners;
 
 import com.tyrriel.simplerpg.SimpleRPG;
+import com.tyrriel.simplerpg.systems.configurationsystem.config.ConfigManager;
 import com.tyrriel.simplerpg.systems.guis.characterselect.CharacterSelectGUI;
-import com.tyrriel.simplerpg.systems.guis.playerinventory.PlayerInventoryGUI;
+import com.tyrriel.simplerpg.systems.guis.playerinventory.CharacterInventory;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
 import com.tyrriel.simplerpg.systems.interactables.InteractableUtil;
 import com.tyrriel.simplerpg.systems.playerui.CompassDisplay;
-import com.tyrriel.simplerpg.util.FileManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -25,10 +25,10 @@ public class PlayerListener implements Listener {
     public void onJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
         event.setJoinMessage("");
-        player.teleport(FileManager.getCharacterSelectLocation());
+        player.teleport(ConfigManager.getCharacterSelectLocation());
 
         Bukkit.getScheduler().runTaskLater(SimpleRPG.getInstance(), ()->
-                player.setResourcePack(FileManager.getRPurl(), FileManager.getRPhash()), 1);
+                player.setResourcePack(ConfigManager.getRPurl(), ConfigManager.getRPhash()), 1);
     }
 
     @EventHandler
@@ -94,7 +94,7 @@ public class PlayerListener implements Listener {
             if (player.getOpenInventory().getType() == InventoryType.CRAFTING){
                 event.setCancelled(true);
                 clearHotbar(player);
-                PlayerInventoryGUI.openCharacterInventory(player, 0);
+                CharacterInventory.openCharacterInventory(player, 0);
             }
         }
     }

@@ -7,6 +7,7 @@ public enum ItemType {
     LEGGINGS,
     BOOTS,
     WEAPON,
+    OFFHAND,
     CONSUMABLE,
     NECKLACE,
     EARRINGS,

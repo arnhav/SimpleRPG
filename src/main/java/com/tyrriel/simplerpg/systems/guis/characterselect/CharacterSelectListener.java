@@ -4,7 +4,7 @@ import com.tyrriel.simplerpg.SimpleRPG;
 import com.tyrriel.simplerpg.systems.characters.Job;
 import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
-import com.tyrriel.simplerpg.util.FileManager;
+import com.tyrriel.simplerpg.systems.configurationsystem.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -71,7 +71,7 @@ public class CharacterSelectListener implements Listener {
         CharacterManager.characters.put(player, RPGCharacter);
         player.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
         player.getInventory().setHeldItemSlot(2);
-        player.teleport(FileManager.getNewStartLocation());
+        player.teleport(ConfigManager.getNewStartLocation());
     }
 
 }

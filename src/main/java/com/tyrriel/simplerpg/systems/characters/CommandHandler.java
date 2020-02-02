@@ -1,6 +1,5 @@
 package com.tyrriel.simplerpg.systems.characters;
 
-import com.tyrriel.simplerpg.util.FileManager;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -35,8 +34,8 @@ public class CommandHandler implements CommandExecutor {
         if (cmd.equalsIgnoreCase("additem")){
             if (sender.isOp() && args.length == 2){
                 Player player = Bukkit.getPlayerExact(args[0]);
-                if (StringUtils.isNumeric(args[1]) && CharacterManager.characters.containsKey(player) && FileManager.getRPGItem(Integer.parseInt(args[1])) != null){
-                    CharacterManager.characters.get(player).addItemToInv(FileManager.getRPGItem(Integer.parseInt(args[1])));
+                if (StringUtils.isNumeric(args[1]) && CharacterManager.characters.containsKey(player)){
+
                 }
             }
         }
