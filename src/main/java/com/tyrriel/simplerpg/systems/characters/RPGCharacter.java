@@ -25,7 +25,7 @@ public class RPGCharacter {
     private List<ItemStack> inventory = new ArrayList<>();
 
     public RPGCharacter(UUID player, Job job){
-        this(player, job, 10, 10, 1, 0, 0, 1);
+        this(player, job, 10, 10, 1, 0, 0, 0);
 
         setStrength(0);
         setDexterity(0);
@@ -84,6 +84,10 @@ public class RPGCharacter {
         this.weapon = weapon;
     }
 
+    public void setOffhand(ItemStack offhand) {
+        this.offhand = offhand;
+    }
+
     public void setConsumable(ItemStack consumable) {
         this.consumable = consumable;
     }
@@ -124,6 +128,10 @@ public class RPGCharacter {
 
     public ItemStack getWeapon() {
         return weapon;
+    }
+
+    public ItemStack getOffhand() {
+        return offhand;
     }
 
     public ItemStack getConsumable() {

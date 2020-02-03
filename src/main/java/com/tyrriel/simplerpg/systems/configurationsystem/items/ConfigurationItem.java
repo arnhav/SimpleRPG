@@ -2,6 +2,7 @@ package com.tyrriel.simplerpg.systems.configurationsystem.items;
 
 import com.tyrriel.simplerpg.systems.characters.Job;
 import com.tyrriel.simplerpg.systems.items.*;
+import com.tyrriel.simplerpg.systems.items.types.*;
 import org.bukkit.inventory.ItemStack;
 
 public class ConfigurationItem {
@@ -11,6 +12,7 @@ public class ConfigurationItem {
     private ItemType itemType;
     private Job job;
     private int level, value;
+    // Non Junk Items
     private int[] stats;
     // Weapon
     private WeaponType weaponType;
@@ -23,14 +25,13 @@ public class ConfigurationItem {
     // Accessories
     private AccessoryType accessoryType;
 
-    public ConfigurationItem(ItemStack itemStack, Rarity rarity, ItemType itemType, Job job, int level, int value, int[] stats){
+    public ConfigurationItem(ItemStack itemStack, Rarity rarity, ItemType itemType, Job job, int level, int value){
         setItemStack(itemStack);
         setRarity(rarity);
         setItemType(itemType);
         setJob(job);
         setLevel(level);
         setValue(value);
-        setStats(stats);
     }
 
     public void setItemStack(ItemStack itemStack) {
@@ -77,6 +78,22 @@ public class ConfigurationItem {
         this.maxDamage = maxDamage;
     }
 
+    public void setOffhandType(OffhandType offhandType) {
+        this.offhandType = offhandType;
+    }
+
+    public void setArmorType(ArmorType armorType) {
+        this.armorType = armorType;
+    }
+
+    public void setArmor(int armor) {
+        this.armor = armor;
+    }
+
+    public void setAccessoryType(AccessoryType accessoryType) {
+        this.accessoryType = accessoryType;
+    }
+
     public ItemStack getItemStack() {
         return itemStack;
     }
@@ -101,5 +118,48 @@ public class ConfigurationItem {
         return value;
     }
 
+    public int[] getStats() {
+        int [] actual = new int[6];
+        int k = 0;
+        for (int i = 0; i < stats.length; i=i+2){
+            int min = stats[i];
+            int max = stats[i+1];
+            int newVal = (int)(Math.random() * ((max - min) + 1)) + min;
+            actual[k] = newVal;
+            k++;
+        }
+        return actual;
+    }
 
+    public WeaponType getWeaponType() {
+        return weaponType;
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public int getMinDamage() {
+        return minDamage;
+    }
+
+    public int getMaxDamage(){
+        return maxDamage;
+    }
+
+    public OffhandType getOffhandType() {
+        return offhandType;
+    }
+
+    public ArmorType getArmorType() {
+        return armorType;
+    }
+
+    public int getArmor() {
+        return armor;
+    }
+
+    public AccessoryType getAccessoryType() {
+        return accessoryType;
+    }
 }

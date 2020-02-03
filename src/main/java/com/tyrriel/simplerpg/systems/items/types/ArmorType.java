@@ -1,4 +1,4 @@
-package com.tyrriel.simplerpg.systems.items;
+package com.tyrriel.simplerpg.systems.items.types;
 
 public enum ArmorType {
 

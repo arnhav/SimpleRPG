@@ -1,13 +1,13 @@
 package com.tyrriel.simplerpg.systems.configurationsystem.items;
 
 import com.tyrriel.simplerpg.systems.characters.Job;
-import com.tyrriel.simplerpg.systems.items.ItemType;
+import com.tyrriel.simplerpg.systems.items.types.*;
 import com.tyrriel.simplerpg.systems.items.Rarity;
-import com.tyrriel.simplerpg.systems.items.WeaponType;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -28,7 +28,7 @@ public class ItemsManager {
     // Plugin instance
     private JavaPlugin plugin;
 
-    private HashMap<String, ConfigurationItem> items = new HashMap<>();
+    private static HashMap<String, ConfigurationItem> items = new HashMap<>();
 
     public ItemsManager(JavaPlugin plugin){
         this.plugin = plugin;
@@ -55,6 +55,21 @@ public class ItemsManager {
                     data.set("Class", Job.NONE.toString());
                     data.set("Level", 0);
                     data.set("Value", 0);
+                    data.save(exampleItem);
+                }
+
+                File exampleWeapon = new File(itemsFolder, "exampleWeapon.yml");
+                data = YamlConfiguration.loadConfiguration(exampleWeapon);
+                if (!exampleWeapon.exists()){
+                    data.set("Material", Material.IRON_SWORD.toString());
+                    data.set("Texture", 0);
+                    data.set("Name", "Training Sword");
+                    data.set("Lore", Arrays.asList(""));
+                    data.set("Rarity", Rarity.COMMON.toString());
+                    data.set("Type", ItemType.WEAPON.toString());
+                    data.set("Class", Job.NONE.toString());
+                    data.set("Level", 0);
+                    data.set("Value", 0);
                     data.set("Stats.strengthmin", 0);
                     data.set("Stats.strengthmax", 0);
                     data.set("Stats.intellimin", 0);
@@ -67,7 +82,11 @@ public class ItemsManager {
                     data.set("Stats.dexteritymax", 0);
                     data.set("Stats.luckmin", 0);
                     data.set("Stats.luckmax", 0);
-                    data.save(exampleItem);
+                    data.set("WeaponType", WeaponType.SWORD.toString());
+                    data.set("Cooldown", 1);
+                    data.set("MinDamage", 0);
+                    data.set("MaxDamage", 5);
+                    data.save(exampleWeapon);
                 }
 
                 File[] files = itemsFolder.listFiles();
@@ -95,24 +114,29 @@ public class ItemsManager {
             Job job = Job.valueOf(data.getString("Class"));
             int level = data.getInt("Level");
             int value = data.getInt("Value");
-            int[] stats = new int[12];
-            ConfigurationSection configSection = data.getConfigurationSection("Stats");
-            if (configSection != null) {
-                int i = 0;
-                for (String path: configSection.getKeys(false)){
-                    stats[i] = configSection.getInt(path);
-                    i++;
-                }
-            }
 
             ItemStack itemStack = new ItemStack(material);
             ItemMeta itemMeta = itemStack.getItemMeta();
             itemMeta.setCustomModelData(texture);
             itemMeta.setDisplayName(name);
             itemMeta.setLore(lore);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             itemStack.setItemMeta(itemMeta);
 
-            ConfigurationItem configurationItem = new ConfigurationItem(itemStack, rarity, itemType, job, level, value, stats);
+            ConfigurationItem configurationItem = new ConfigurationItem(itemStack, rarity, itemType, job, level, value);
+
+            if (itemType != ItemType.JUNK){
+                int[] stats = new int[12];
+                ConfigurationSection configSection = data.getConfigurationSection("Stats");
+                if (configSection != null) {
+                    int i = 0;
+                    for (String path: configSection.getKeys(false)){
+                        stats[i] = configSection.getInt(path);
+                        i++;
+                    }
+                }
+                configurationItem.setStats(stats);
+            }
 
             if (itemType == ItemType.WEAPON){
                 WeaponType weaponType = WeaponType.valueOf(data.getString("WeaponType"));
@@ -126,8 +150,38 @@ public class ItemsManager {
                 configurationItem.setMaxDamage(maxDamage);
             }
 
+            if (itemType == ItemType.ARMOR){
+                ArmorType armorType = ArmorType.valueOf(data.getString("ArmorType"));
+                int armor = data.getInt("Armor");
+
+                configurationItem.setArmorType(armorType);
+                configurationItem.setArmor(armor);
+            }
+
+            if (itemType == ItemType.OFFHAND){
+                OffhandType offhandType = OffhandType.valueOf(data.getString("OffhandType"));
+
+                configurationItem.setOffhandType(offhandType);
+
+                if (offhandType == OffhandType.SHIELD){
+                    int armor = data.getInt("Armor");
+
+                    configurationItem.setArmor(armor);
+                }
+            }
+
+            if (itemType == ItemType.ACCESSORY){
+                AccessoryType accessoryType = AccessoryType.valueOf(data.getString("AccessoryType"));
+
+                configurationItem.setAccessoryType(accessoryType);
+            }
+
             items.put(file.getName(), configurationItem);
         }
+    }
+
+    public static ConfigurationItem getConfigurationItem(String name){
+        return items.get(name);
     }
 
 }

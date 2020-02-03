@@ -1,11 +1,12 @@
 package com.tyrriel.simplerpg.systems.guis.playerinventory;
 
+import com.tyrriel.simplerpg.systems.characters.Job;
 import com.tyrriel.simplerpg.systems.interactables.item.LootUtil;
-import com.tyrriel.simplerpg.systems.items.ItemType;
+import com.tyrriel.simplerpg.systems.items.types.ItemType;
 import com.tyrriel.simplerpg.listeners.PlayerListener;
 import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
-import com.tyrriel.simplerpg.systems.items.RPGItemUtil;
+import com.tyrriel.simplerpg.systems.items.RPGItem;
 import com.tyrriel.simplerpg.util.ItemUtil;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -26,14 +27,15 @@ public class PlayerInventoryListener implements Listener {
         Inventory top = event.getInventory();
         if (!CharacterMenu.open.containsKey(top)) return;
 
-        RPGCharacter RPGCharacter = CharacterManager.characters.get(player);
+        RPGCharacter character = CharacterManager.characters.get(player);
         if (event.getReason() == InventoryCloseEvent.Reason.PLAYER){
-            player.getInventory().setItem(2, ItemUtil.makeWeaponItem(RPGCharacter.getWeapon()));
-            player.getInventory().setItem(8, RPGCharacter.getConsumable());
-            player.getInventory().setHelmet(ItemUtil.makeArmorItem(RPGCharacter.getHelm()));
-            player.getInventory().setChestplate(ItemUtil.makeArmorItem(RPGCharacter.getChest()));
-            player.getInventory().setLeggings(ItemUtil.makeArmorItem(RPGCharacter.getLegs()));
-            player.getInventory().setBoots(ItemUtil.makeArmorItem(RPGCharacter.getBoots()));
+            player.getInventory().setItem(2, ItemUtil.makeWeaponItem(character.getWeapon()));
+            player.getInventory().setItemInOffHand(ItemUtil.makeOffhandItem(character.getOffhand()));
+            player.getInventory().setItem(8, character.getConsumable());
+            player.getInventory().setHelmet(ItemUtil.makeArmorItem(character.getHelm()));
+            player.getInventory().setChestplate(ItemUtil.makeArmorItem(character.getChest()));
+            player.getInventory().setLeggings(ItemUtil.makeArmorItem(character.getLegs()));
+            player.getInventory().setBoots(ItemUtil.makeArmorItem(character.getBoots()));
         }
 
         CharacterMenu.open.remove(top);
@@ -48,12 +50,12 @@ public class PlayerInventoryListener implements Listener {
         CharacterMenu.GUIType guiType = CharacterMenu.open.get(top);
         Player player = (Player) event.getWhoClicked();
         ItemStack itemStack = event.getCurrentItem();
-        RPGCharacter RPGCharacter = CharacterManager.characters.get(player);
+        RPGCharacter character = CharacterManager.characters.get(player);
 
         if (itemStack == null) return;
 
         if (guiType == CharacterMenu.GUIType.INVENTORY){
-            if (itemStack.equals(CharacterMenu.stats(RPGCharacter))){
+            if (itemStack.equals(CharacterMenu.stats(character))){
                 CharacterStats.openCharacterStats(player);
             }
             if (itemStack.equals(CharacterMenu.quests())){
@@ -72,8 +74,13 @@ public class PlayerInventoryListener implements Listener {
             }
             if (isEquipped(itemStack)){
                 if (event.getClick() == ClickType.LEFT){
-                    if (modifySlot(RPGCharacter, RPGItemUtil.getItemType(itemStack), null) == 0){
-                        removeEquipped(itemStack);
+                    ItemType itemType;
+                    if (event.getSlot() == 28){
+                        itemType = ItemType.OFFHAND;
+                    } else {
+                        itemType = RPGItem.getItemType(itemStack);
+                    }
+                    if (modifySlot(character, itemType, itemStack, null) == 0){
                         openCharacterInventory(player, 0);
                     }
                 }
@@ -83,12 +90,12 @@ public class PlayerInventoryListener implements Listener {
             }
             if (isInventory(itemStack)){
                 if (event.getClick() == ClickType.LEFT){
-                    if (RPGItemUtil.getItemType(itemStack) != ItemType.JUNK){
-                        if (RPGItemUtil.getValue(itemStack) <= RPGCharacter.getLevel()) {
+                    if (RPGItem.getItemType(itemStack) != ItemType.JUNK){
+                        if ((RPGItem.getLevel(itemStack) <= character.getLevel()) && (RPGItem.getJob(itemStack) == Job.NONE || RPGItem.getJob(itemStack) == character.getJob())) {
                             int pos = getSlot(itemStack);
-                            removeInventory(itemStack);
-                            if (modifySlot(RPGCharacter, RPGItemUtil.getItemType(itemStack), itemStack) == 0) {
-                                RPGCharacter.removeFromInv(pos);
+                            ItemStack temp = character.getInventory().get(pos);
+                            if (modifySlot(character, RPGItem.getItemType(itemStack), itemStack, temp) == 0) {
+                                character.removeFromInv(pos);
                                 openCharacterInventory(player, 0);
                             }
                         }
@@ -96,9 +103,9 @@ public class PlayerInventoryListener implements Listener {
                 }
                 if (event.getClick() == ClickType.RIGHT){
                     int pos = getSlot(itemStack);
-                    ItemStack temp = RPGCharacter.getInventory().get(pos);
+                    ItemStack temp = character.getInventory().get(pos);
                     removeInventory(temp);
-                    RPGCharacter.removeFromInv(pos);
+                    character.removeFromInv(pos);
                     LootUtil.dropItem(player, temp);
                     openCharacterInventory(player, 0);
                 }
@@ -121,51 +128,51 @@ public class PlayerInventoryListener implements Listener {
             }
 
             if (CharacterStats.isStrength(itemStack)){
-                if (RPGCharacter.getUnallocatedstats() > 0){
-                    RPGCharacter.setStrength(RPGCharacter.getStrength() + 1);
-                    RPGCharacter.setUnallocatedstats(RPGCharacter.getUnallocatedstats() - 1);
+                if (character.getUnallocatedstats() > 0){
+                    character.setStrength(character.getStrength() + 1);
+                    character.setUnallocatedstats(character.getUnallocatedstats() - 1);
                     CharacterStats.openCharacterStats(player);
                 }
             }
             if (CharacterStats.isIntelligence(itemStack)){
-                if (RPGCharacter.getUnallocatedstats() > 0){
-                    RPGCharacter.setIntelligence(RPGCharacter.getIntelligence() + 1);
-                    RPGCharacter.setUnallocatedstats(RPGCharacter.getUnallocatedstats() - 1);
+                if (character.getUnallocatedstats() > 0){
+                    character.setIntelligence(character.getIntelligence() + 1);
+                    character.setUnallocatedstats(character.getUnallocatedstats() - 1);
                     CharacterStats.openCharacterStats(player);
                 }
             }
             if (CharacterStats.isSpeed(itemStack)){
-                if (RPGCharacter.getUnallocatedstats() > 0){
-                    RPGCharacter.setSpeed(RPGCharacter.getSpeed() + 1);
-                    RPGCharacter.setUnallocatedstats(RPGCharacter.getUnallocatedstats() - 1);
+                if (character.getUnallocatedstats() > 0){
+                    character.setSpeed(character.getSpeed() + 1);
+                    character.setUnallocatedstats(character.getUnallocatedstats() - 1);
                     CharacterStats.openCharacterStats(player);
                 }
             }
             if (CharacterStats.isVitality(itemStack)){
-                if (RPGCharacter.getUnallocatedstats() > 0){
-                    RPGCharacter.setVitality(RPGCharacter.getVitality() + 1);
-                    RPGCharacter.setUnallocatedstats(RPGCharacter.getUnallocatedstats() - 1);
+                if (character.getUnallocatedstats() > 0){
+                    character.setVitality(character.getVitality() + 1);
+                    character.setUnallocatedstats(character.getUnallocatedstats() - 1);
                     CharacterStats.openCharacterStats(player);
                 }
             }
             if (CharacterStats.isDexterity(itemStack)){
-                if (RPGCharacter.getUnallocatedstats() > 0){
-                    RPGCharacter.setDexterity(RPGCharacter.getDexterity() + 1);
-                    RPGCharacter.setUnallocatedstats(RPGCharacter.getUnallocatedstats() - 1);
+                if (character.getUnallocatedstats() > 0){
+                    character.setDexterity(character.getDexterity() + 1);
+                    character.setUnallocatedstats(character.getUnallocatedstats() - 1);
                     CharacterStats.openCharacterStats(player);
                 }
             }
             if (CharacterStats.isLuck(itemStack)){
-                if (RPGCharacter.getUnallocatedstats() > 0){
-                    RPGCharacter.setLuck(RPGCharacter.getLuck() + 1);
-                    RPGCharacter.setUnallocatedstats(RPGCharacter.getUnallocatedstats() - 1);
+                if (character.getUnallocatedstats() > 0){
+                    character.setLuck(character.getLuck() + 1);
+                    character.setUnallocatedstats(character.getUnallocatedstats() - 1);
                     CharacterStats.openCharacterStats(player);
                 }
             }
         }
         
         if (guiType == CharacterMenu.GUIType.QUESTS){
-            if (itemStack.equals(CharacterMenu.stats(RPGCharacter))){
+            if (itemStack.equals(CharacterMenu.stats(character))){
                 CharacterStats.openCharacterStats(player);
             }
             if (itemStack.equals(CharacterMenu.guild())){
@@ -180,7 +187,7 @@ public class PlayerInventoryListener implements Listener {
         }
 
         if (guiType == CharacterMenu.GUIType.GUILD){
-            if (itemStack.equals(CharacterMenu.stats(RPGCharacter))){
+            if (itemStack.equals(CharacterMenu.stats(character))){
                 CharacterStats.openCharacterStats(player);
             }
             if (itemStack.equals(CharacterMenu.quests())){
@@ -195,7 +202,7 @@ public class PlayerInventoryListener implements Listener {
         }
 
         if (guiType == CharacterMenu.GUIType.OPTIONS){
-            if (itemStack.equals(CharacterMenu.stats(RPGCharacter))){
+            if (itemStack.equals(CharacterMenu.stats(character))){
                 CharacterStats.openCharacterStats(player);
             }
             if (itemStack.equals(CharacterMenu.quests())){
@@ -212,63 +219,90 @@ public class PlayerInventoryListener implements Listener {
         PlayerListener.clearHotbar(player);
     }
 
-    private int modifySlot(RPGCharacter RPGCharacter, ItemType itemType, ItemStack itemStack){
-        int value = -1;
+    private int modifySlot(RPGCharacter character, ItemType itemType, ItemStack original, ItemStack stack){
         switch (itemType){
             case WEAPON:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getWeapon());
-                if (value == 0)
-                    RPGCharacter.setWeapon(itemStack);
+                if (character.getWeapon() == null || stack == null){
+                    if (character.addItemToInv(removeEquipped(character.getWeapon())) == 0) {
+                        character.setWeapon(removeInventory(stack));
+                        return 0;
+                    }
+                } else {
+                    if (character.getOffhand() == null){
+                        return modifySlot(character, ItemType.OFFHAND, original, stack);
+                    }
+                }
+                break;
+            case OFFHAND:
+                if (character.addItemToInv(removeEquipped(character.getOffhand())) == 0) {
+                    character.setOffhand(removeInventory(stack));
+                    return 0;
+                }
                 break;
             case CONSUMABLE:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getConsumable());
-                if (value == 0)
-                    RPGCharacter.setConsumable(itemStack);
+                if (character.addItemToInv(removeEquipped(character.getConsumable())) == 0) {
+                    character.setConsumable(removeInventory(stack));
+                    return 0;
+                }
                 break;
             case ARMOR:
-                break;
+                return modifyArmorSlot(character, original, stack);
             case ACCESSORY:
-                break;
-                /*case HELMET:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getHelm());
+                return modifyAccessorySlot(character, original, stack);
+        }
+        return -1;
+    }
+
+    private int modifyArmorSlot(RPGCharacter rpgCharacter, ItemStack original, ItemStack stack){
+        int value = -1;
+        switch (RPGItem.getArmorType(original)){
+            case HELMET:
+                value = rpgCharacter.addItemToInv(removeEquipped(rpgCharacter.getHelm()));
                 if (value == 0)
-                    RPGCharacter.setHelm(itemStack);
+                    rpgCharacter.setHelm(removeInventory(stack));
                 break;
             case CHESTPLATE:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getChest());
+                value = rpgCharacter.addItemToInv(removeEquipped(rpgCharacter.getChest()));
                 if (value == 0)
-                    RPGCharacter.setChest(itemStack);
+                    rpgCharacter.setChest(removeInventory(stack));
                 break;
             case LEGGINGS:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getLegs());
+                value = rpgCharacter.addItemToInv(removeEquipped(rpgCharacter.getLegs()));
                 if (value == 0)
-                    RPGCharacter.setLegs(itemStack);
+                    rpgCharacter.setLegs(removeInventory(stack));
                 break;
             case BOOTS:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getBoots());
+                value = rpgCharacter.addItemToInv(removeEquipped(rpgCharacter.getBoots()));
                 if (value == 0)
-                    RPGCharacter.setBoots(itemStack);
-                break;*/
-            /*case NECKLACE:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getNecklace());
+                    rpgCharacter.setBoots(removeInventory(stack));
+                break;
+        }
+        return value;
+    }
+
+    private int modifyAccessorySlot(RPGCharacter rpgCharacter, ItemStack original, ItemStack stack){
+        int value = -1;
+        switch (RPGItem.getAccessoryType(original)){
+            case NECKLACE:
+                value = rpgCharacter.addItemToInv(removeEquipped(rpgCharacter.getNecklace()));
                 if (value == 0)
-                    RPGCharacter.setNecklace(itemStack);
+                    rpgCharacter.setNecklace(removeInventory(stack));
                 break;
             case EARRINGS:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getEarrings());
+                value = rpgCharacter.addItemToInv(removeEquipped(rpgCharacter.getEarrings()));
                 if (value == 0)
-                    RPGCharacter.setEarrings(itemStack);
+                    rpgCharacter.setEarrings(removeInventory(stack));
                 break;
             case RING:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getRing());
+                value = rpgCharacter.addItemToInv(removeEquipped(rpgCharacter.getRing()));
                 if (value == 0)
-                    RPGCharacter.setRing(itemStack);
+                    rpgCharacter.setRing(removeInventory(stack));
                 break;
             case BRACERS:
-                value = RPGCharacter.addItemToInv(RPGCharacter.getBracers());
+                value = rpgCharacter.addItemToInv(removeEquipped(rpgCharacter.getBracers()));
                 if (value == 0)
-                    RPGCharacter.setBracers(itemStack);
-                break;*/
+                    rpgCharacter.setBracers(removeInventory(stack));
+                break;
         }
         return value;
     }

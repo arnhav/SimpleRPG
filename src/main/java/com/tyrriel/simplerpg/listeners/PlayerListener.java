@@ -101,8 +101,9 @@ public class PlayerListener implements Listener {
 
     public static void clearHotbar(Player player){
         for (int i = 0; i < 9; i++){
-            player.getInventory().setItem(i, new ItemStack(Material.AIR));
+            player.getInventory().setItem(i, null);
         }
+        player.getInventory().setItemInOffHand(null);
     }
 
 }

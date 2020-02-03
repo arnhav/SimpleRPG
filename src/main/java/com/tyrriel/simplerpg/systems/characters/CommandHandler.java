@@ -1,11 +1,17 @@
 package com.tyrriel.simplerpg.systems.characters;
 
+import com.tyrriel.simplerpg.systems.configurationsystem.items.ConfigurationItem;
+import com.tyrriel.simplerpg.systems.configurationsystem.items.ItemsManager;
+import com.tyrriel.simplerpg.systems.items.types.ItemType;
+import com.tyrriel.simplerpg.systems.items.RPGItem;
+import com.tyrriel.simplerpg.util.ItemUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class CommandHandler implements CommandExecutor {
     @Override
@@ -34,9 +40,7 @@ public class CommandHandler implements CommandExecutor {
         if (cmd.equalsIgnoreCase("additem")){
             if (sender.isOp() && args.length == 2){
                 Player player = Bukkit.getPlayerExact(args[0]);
-                if (StringUtils.isNumeric(args[1]) && CharacterManager.characters.containsKey(player)){
-
-                }
+                ItemUtil.addItemToCharacterInv(player, args[1]);
             }
         }
 
