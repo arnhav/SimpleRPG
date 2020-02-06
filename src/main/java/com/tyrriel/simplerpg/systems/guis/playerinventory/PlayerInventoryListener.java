@@ -103,11 +103,10 @@ public class PlayerInventoryListener implements Listener {
                 }
                 if (event.getClick() == ClickType.RIGHT){
                     int pos = getSlot(itemStack);
-                    ItemStack temp = character.getInventory().get(pos);
-                    removeInventory(temp);
+                    ItemStack temp = character.getInventory().get(pos).clone();
                     character.removeFromInv(pos);
-                    LootUtil.dropItem(player, temp);
                     openCharacterInventory(player, 0);
+                    LootUtil.dropItem(player, removeInventory(temp));
                 }
             }
 

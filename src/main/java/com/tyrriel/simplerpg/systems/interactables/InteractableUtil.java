@@ -39,13 +39,14 @@ public class InteractableUtil {
         if (RPGCharacter == null) return;
         if (!(entity instanceof ArmorStand)) return;
         ArmorStand armorStand = (ArmorStand) entity;
-        ItemStack itemStack = armorStand.getItem(EquipmentSlot.HEAD);
-        if (RPGCharacter.addItemToInv(itemStack) == -1) return;
-        for (Entity pass : armorStand.getPassengers()){
-            pass.remove();
+        ItemStack itemStack = armorStand.getItem(EquipmentSlot.HEAD).clone();
+        if (RPGCharacter.addItemToInv(itemStack) == 0){
+            for (Entity pass : armorStand.getPassengers()){
+                pass.remove();
+            }
+            armorStand.remove();
+            player.sendActionBar("+ " + itemStack.getItemMeta().getDisplayName());
         }
-        armorStand.remove();
-        player.sendActionBar("+ " + itemStack.getItemMeta().getDisplayName());
     }
 
 }

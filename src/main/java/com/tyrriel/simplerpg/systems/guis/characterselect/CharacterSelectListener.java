@@ -71,7 +71,7 @@ public class CharacterSelectListener implements Listener {
         CharacterManager.characters.put(player, RPGCharacter);
         player.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
         player.getInventory().setHeldItemSlot(2);
-        player.teleport(ConfigManager.getNewStartLocation());
+        Bukkit.getScheduler().runTaskLater(SimpleRPG.getInstance(), ()-> player.teleport(ConfigManager.getNewStartLocation()), 1);
     }
 
 }

@@ -98,7 +98,6 @@ public class CharacterInventory {
     public static boolean isEquipped(ItemStack itemStack){
         if (itemStack == null) return false;
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta == null) return false;
         PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
         return pdc.has(equipped, PersistentDataType.INTEGER);
     }
@@ -106,7 +105,6 @@ public class CharacterInventory {
     public static boolean isInventory(ItemStack itemStack){
         if (itemStack == null) return false;
         ItemMeta itemMeta = itemStack.getItemMeta();
-        if (itemMeta == null) return false;
         PersistentDataContainer pdc = itemMeta.getPersistentDataContainer();
         return pdc.has(slot, PersistentDataType.INTEGER);
     }
@@ -119,7 +117,7 @@ public class CharacterInventory {
             itemStack.setItemMeta(itemMeta);
             return itemStack;
         }
-        return null;
+        return itemStack;
     }
 
     public static ItemStack removeInventory(ItemStack itemStack){
@@ -130,7 +128,7 @@ public class CharacterInventory {
             itemStack.setItemMeta(itemMeta);
             return itemStack;
         }
-        return null;
+        return itemStack;
     }
 
     public static int getSlot(ItemStack itemStack){
