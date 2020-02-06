@@ -1,7 +1,7 @@
 package com.tyrriel.simplerpg.listeners;
 
 import com.tyrriel.simplerpg.SimpleRPG;
-import com.tyrriel.simplerpg.systems.configurationsystem.config.ConfigManager;
+import com.tyrriel.simplerpg.systems.configuration.config.ConfigManager;
 import com.tyrriel.simplerpg.systems.guis.characterselect.CharacterSelectGUI;
 import com.tyrriel.simplerpg.systems.guis.playerinventory.CharacterInventory;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
@@ -9,14 +9,12 @@ import com.tyrriel.simplerpg.systems.interactables.InteractableUtil;
 import com.tyrriel.simplerpg.systems.playerui.CompassDisplay;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
-import org.bukkit.inventory.ItemStack;
 
 
 public class PlayerListener implements Listener {

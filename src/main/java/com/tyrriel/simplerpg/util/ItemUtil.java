@@ -2,8 +2,8 @@ package com.tyrriel.simplerpg.util;
 
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
 import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
-import com.tyrriel.simplerpg.systems.configurationsystem.items.ConfigurationItem;
-import com.tyrriel.simplerpg.systems.configurationsystem.items.ItemsManager;
+import com.tyrriel.simplerpg.systems.configuration.items.ConfigurationItem;
+import com.tyrriel.simplerpg.systems.configuration.items.ItemsManager;
 import com.tyrriel.simplerpg.systems.items.RPGItem;
 import com.tyrriel.simplerpg.systems.items.types.ItemType;
 import com.tyrriel.simplerpg.systems.items.types.OffhandType;

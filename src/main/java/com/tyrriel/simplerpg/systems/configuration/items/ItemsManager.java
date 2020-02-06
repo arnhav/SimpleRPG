@@ -1,4 +1,4 @@
-package com.tyrriel.simplerpg.systems.configurationsystem.items;
+package com.tyrriel.simplerpg.systems.configuration.items;
 
 import com.tyrriel.simplerpg.systems.characters.Job;
 import com.tyrriel.simplerpg.systems.items.types.*;

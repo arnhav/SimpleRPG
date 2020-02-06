@@ -4,7 +4,7 @@ import com.tyrriel.simplerpg.SimpleRPG;
 import com.tyrriel.simplerpg.systems.characters.Job;
 import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
-import com.tyrriel.simplerpg.systems.configurationsystem.config.ConfigManager;
+import com.tyrriel.simplerpg.systems.configuration.config.ConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

@@ -2,7 +2,7 @@ package com.tyrriel.simplerpg;
 
 import com.tyrriel.simplerpg.systems.characters.CharactersSystem;
 import com.tyrriel.simplerpg.listeners.PlayerListener;
-import com.tyrriel.simplerpg.systems.configurationsystem.ConfigurationSystem;
+import com.tyrriel.simplerpg.systems.configuration.ConfigurationSystem;
 import com.tyrriel.simplerpg.systems.playerui.PlayerUISystem;
 import com.tyrriel.simplerpg.systems.guis.GUISystem;
 import com.tyrriel.simplerpg.systems.interactables.InteractablesSystem;

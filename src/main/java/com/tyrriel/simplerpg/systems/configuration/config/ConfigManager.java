@@ -1,4 +1,4 @@
-package com.tyrriel.simplerpg.systems.configurationsystem.config;
+package com.tyrriel.simplerpg.systems.configuration.config;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
