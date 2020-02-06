@@ -44,9 +44,15 @@ public class ItemUtil {
     }
 
     public static ItemStack makeWeaponItem(ItemStack itemStack){
-        if (itemStack == null) return null;
         ItemStack temp = itemStack.clone();
-        ItemMeta itemMeta = temp.getItemMeta();
+        ItemMeta itemMeta;
+        if (temp == null){
+            temp = new ItemStack(Material.BLACK_STAINED_GLASS);
+            itemMeta = temp.getItemMeta();
+            itemMeta.setCustomModelData(100);
+            temp.setItemMeta(itemMeta);
+        }
+        itemMeta = temp.getItemMeta();
         itemMeta.setDisplayName(ChatColor.WHITE + "Basic Attack");
         itemMeta.setLore(Arrays.asList(
                 " ",
