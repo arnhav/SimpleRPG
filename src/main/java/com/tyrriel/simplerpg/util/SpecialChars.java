@@ -30,4 +30,10 @@ public class SpecialChars {
         return "⛨";
     }
 
+    public static String partyMember(){ return "☗"; }
+
+    public static String dead(){
+        return "☠";
+    }
+
 }

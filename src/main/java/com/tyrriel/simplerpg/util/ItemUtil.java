@@ -44,21 +44,28 @@ public class ItemUtil {
     }
 
     public static ItemStack makeWeaponItem(ItemStack itemStack){
-        ItemStack temp = itemStack.clone();
+        ItemStack temp;
         ItemMeta itemMeta;
-        if (temp == null){
-            temp = new ItemStack(Material.BLACK_STAINED_GLASS);
+        if (itemStack == null){
+            temp = new ItemStack(Material.BLACK_STAINED_GLASS_PANE);
             itemMeta = temp.getItemMeta();
+            itemMeta.setDisplayName(ChatColor.WHITE + "Basic Attack");
+            itemMeta.setLore(Arrays.asList(
+                    " ",
+                    ChatColor.GRAY + "Cooldown: 1 sec."
+            ));
             itemMeta.setCustomModelData(100);
             temp.setItemMeta(itemMeta);
+        } else {
+            temp = itemStack.clone();
+            itemMeta = temp.getItemMeta();
+            itemMeta.setDisplayName(ChatColor.WHITE + "Basic Attack");
+            itemMeta.setLore(Arrays.asList(
+                    " ",
+                    ChatColor.GRAY + "Cooldown: " + RPGItem.getCooldown(itemStack) + " sec."
+            ));
+            temp.setItemMeta(itemMeta);
         }
-        itemMeta = temp.getItemMeta();
-        itemMeta.setDisplayName(ChatColor.WHITE + "Basic Attack");
-        itemMeta.setLore(Arrays.asList(
-                " ",
-                ChatColor.GRAY + "Cooldown: " + RPGItem.getCooldown(itemStack) + " sec."
-        ));
-        temp.setItemMeta(itemMeta);
         return temp;
     }
 

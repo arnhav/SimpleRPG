@@ -52,10 +52,6 @@ public class PlayerUIUpdater implements Runnable {
             player.setLevel(RPGCharacter.getLevel());
             float adjustedExp = (float) (RPGCharacter.getExp() / RPGCharacter.getMaxExpForLevel());
             player.setExp(adjustedExp);
-
-            /*player.sendActionBar(character.getHealth() + "/" + character.getMaxHealth() + " | " +
-                    character.getExp() + "/" + (int)character.getMaxExpForLevel() + " | " +
-                    character.getMana() + "/" + character.getMaxMana());*/
         }
     }
 }

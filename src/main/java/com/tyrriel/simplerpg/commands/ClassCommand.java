@@ -4,6 +4,7 @@ import com.tyrriel.simplerpg.systems.characters.CharacterManager;
 import com.tyrriel.simplerpg.systems.configuration.config.ConfigManager;
 import com.tyrriel.simplerpg.systems.guis.characterselect.CharacterSelectGUI;
 import com.tyrriel.simplerpg.systems.playerui.CompassDisplay;
+import com.tyrriel.simplerpg.systems.playerui.ScoreboardManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -27,6 +28,7 @@ public class ClassCommand implements CommandExecutor {
                 ((Player) sender).getInventory().clear();
                 ((Player) sender).setLevel(0);
                 ((Player) sender).setExp(0);
+                ScoreboardManager.hideScoreboard((Player) sender);
                 ((Player) sender).teleport(ConfigManager.getCharacterSelectLocation());
                 CharacterSelectGUI.openCharacterSelector((Player) sender);
             }

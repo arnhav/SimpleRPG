@@ -7,6 +7,7 @@ import com.tyrriel.simplerpg.systems.guis.playerinventory.CharacterInventory;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
 import com.tyrriel.simplerpg.systems.interactables.InteractableUtil;
 import com.tyrriel.simplerpg.systems.playerui.CompassDisplay;
+import com.tyrriel.simplerpg.systems.playerui.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -58,6 +59,7 @@ public class PlayerListener implements Listener {
         player.getInventory().clear();
         player.setLevel(0);
         player.setExp(0);
+        ScoreboardManager.hideScoreboard(player);
     }
 
     @EventHandler
