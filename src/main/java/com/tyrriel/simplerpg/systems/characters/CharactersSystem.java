@@ -1,5 +1,7 @@
 package com.tyrriel.simplerpg.systems.characters;
 
+import com.tyrriel.simplerpg.commands.ClassCommand;
+import com.tyrriel.simplerpg.commands.CommandHandler;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class CharactersSystem {

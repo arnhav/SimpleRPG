@@ -1,5 +1,6 @@
-package com.tyrriel.simplerpg.systems.characters;
+package com.tyrriel.simplerpg.commands;
 
+import com.tyrriel.simplerpg.systems.characters.CharacterManager;
 import com.tyrriel.simplerpg.systems.configuration.config.ConfigManager;
 import com.tyrriel.simplerpg.systems.guis.characterselect.CharacterSelectGUI;
 import com.tyrriel.simplerpg.systems.playerui.CompassDisplay;

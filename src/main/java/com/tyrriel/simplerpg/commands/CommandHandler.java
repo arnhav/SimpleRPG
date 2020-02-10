@@ -1,5 +1,6 @@
-package com.tyrriel.simplerpg.systems.characters;
+package com.tyrriel.simplerpg.commands;
 
+import com.tyrriel.simplerpg.systems.characters.CharacterManager;
 import com.tyrriel.simplerpg.util.ItemUtil;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;

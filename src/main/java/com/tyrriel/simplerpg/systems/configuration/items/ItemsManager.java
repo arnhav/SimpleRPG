@@ -131,8 +131,10 @@ public class ItemsManager {
                 if (configSection != null) {
                     int i = 0;
                     for (String path: configSection.getKeys(false)){
-                        stats[i] = configSection.getInt(path);
-                        i++;
+                        if (i < stats.length) {
+                            stats[i] = configSection.getInt(path);
+                            i++;
+                        }
                     }
                 }
                 configurationItem.setStats(stats);
