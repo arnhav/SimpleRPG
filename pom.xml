@@ -44,6 +44,27 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>de.slikey</pattern>
+                                    <shadedPattern>com.mc_atlas.slikey</shadedPattern>
+                                </relocation>
+                            </relocations>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
         <resources>
             <resource>
@@ -67,6 +88,11 @@
             <id>dmulloy2-repo</id>
             <url>https://repo.dmulloy2.net/nexus/repository/public/</url>
         </repository>
+        <!--EffectLib-->
+        <repository>
+            <id>elmakers-repo</id>
+            <url>http://maven.elmakers.com/repository/ </url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -81,6 +107,12 @@
             <groupId>com.comphenix.protocol</groupId>
             <artifactId>ProtocolLib</artifactId>
             <version>4.5.0</version>
+        </dependency>
+        <!--EffectLib-->
+        <dependency>
+            <groupId>de.slikey</groupId>
+            <artifactId>EffectLib</artifactId>
+            <version>6.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

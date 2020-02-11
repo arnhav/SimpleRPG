@@ -5,6 +5,7 @@ import com.tyrriel.simplerpg.systems.characters.Job;
 import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
 import com.tyrriel.simplerpg.systems.configuration.config.ConfigManager;
+import com.tyrriel.simplerpg.util.ItemUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -67,10 +68,17 @@ public class CharacterSelectListener implements Listener {
     }
 
     public void createNewCharacter(Player player, Job job){
-        RPGCharacter RPGCharacter = new RPGCharacter(player.getUniqueId(), job);
-        CharacterManager.characters.put(player, RPGCharacter);
+        RPGCharacter character = new RPGCharacter(player.getUniqueId(), job);
+        CharacterManager.characters.put(player, character);
         player.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
         player.getInventory().setHeldItemSlot(2);
+        player.getInventory().setItem(2, ItemUtil.makeWeaponItem(character.getWeapon()));
+        player.getInventory().setItemInOffHand(ItemUtil.makeOffhandItem(character.getOffhand()));
+        player.getInventory().setItem(8, character.getConsumable());
+        player.getInventory().setHelmet(ItemUtil.makeArmorItem(character.getHelm()));
+        player.getInventory().setChestplate(ItemUtil.makeArmorItem(character.getChest()));
+        player.getInventory().setLeggings(ItemUtil.makeArmorItem(character.getLegs()));
+        player.getInventory().setBoots(ItemUtil.makeArmorItem(character.getBoots()));
         Bukkit.getScheduler().runTaskLater(SimpleRPG.getInstance(), ()-> player.teleport(ConfigManager.getNewStartLocation()), 1);
     }
 

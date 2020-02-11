@@ -12,6 +12,7 @@ public enum WeaponType {
     GREAT_SWORD,
     BOW,
     HAND_CROSSBOW,
-    WAND
+    WAND,
+    STAFF
 
 }

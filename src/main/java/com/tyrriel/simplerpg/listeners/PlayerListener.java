@@ -63,15 +63,6 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onChangeItem (PlayerItemHeldEvent event){
-        Player player = event.getPlayer();
-        if (CharacterManager.characters.containsKey(player)){
-            event.setCancelled(true);
-
-        }
-    }
-
-    @EventHandler
     public void onClick(InventoryClickEvent event){
         Player player = (Player) event.getWhoClicked();
         if (CharacterManager.characters.containsKey(player)){
