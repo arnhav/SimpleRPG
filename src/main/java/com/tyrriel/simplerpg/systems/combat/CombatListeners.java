@@ -56,26 +56,30 @@ public class CombatListeners implements Listener {
         Material material = player.getInventory().getItemInMainHand().getType();
         if (character != null && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) &&
             player.getCooldown(material) == 0){
-            int cooldown = 1;
-            if (character.getWeapon() != null){
-                WeaponType weaponType = RPGItem.getWeaponType(character.getWeapon());
-                 cooldown = RPGItem.getCooldown(character.getWeapon());
-                if (weaponType == WeaponType.HAND_CROSSBOW || weaponType == WeaponType.BOW){
+            if (!player.getScoreboardTags().contains("Drop")){
+                int cooldown = 1;
+                if (character.getWeapon() != null){
+                    WeaponType weaponType = RPGItem.getWeaponType(character.getWeapon());
+                    cooldown = RPGItem.getCooldown(character.getWeapon());
+                    if (weaponType == WeaponType.HAND_CROSSBOW || weaponType == WeaponType.BOW){
 
-                }
-                else if (weaponType == WeaponType.WAND || weaponType == WeaponType.STAFF){
-
-                } else {
-                    if (weaponType == WeaponType.DAGGER){
-                        ParticleEffectManager.doPhysicalAttack(player, 1);
-                    } else {
-                        ParticleEffectManager.doPhysicalAttack(player, 1.5);
                     }
+                    else if (weaponType == WeaponType.WAND || weaponType == WeaponType.STAFF){
+
+                    } else {
+                        if (weaponType == WeaponType.DAGGER){
+                            ParticleEffectManager.doPhysicalAttack(player, 1);
+                        } else {
+                            ParticleEffectManager.doPhysicalAttack(player, 1.5);
+                        }
+                    }
+                } else {
+                    ParticleEffectManager.doPhysicalAttack(player, 0.75);
                 }
+                player.setCooldown(material, cooldown * 20);
             } else {
-                ParticleEffectManager.doPhysicalAttack(player, 0.75);
+                player.removeScoreboardTag("Drop");
             }
-            player.setCooldown(material, cooldown * 20);
         } else {
             event.setCancelled(true);
         }

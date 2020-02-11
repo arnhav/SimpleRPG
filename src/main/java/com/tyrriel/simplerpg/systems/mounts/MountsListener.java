@@ -12,6 +12,7 @@ public class MountsListener implements Listener {
     public void onDrop(PlayerDropItemEvent event){
         Player player = event.getPlayer();
         if (CharacterManager.characters.containsKey(player)){
+            player.addScoreboardTag("Drop");
             event.setCancelled(true);
         }
     }
