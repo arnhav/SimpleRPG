@@ -72,14 +72,16 @@ public class CharacterSelectListener implements Listener {
         CharacterManager.characters.put(player, character);
         player.closeInventory(InventoryCloseEvent.Reason.PLUGIN);
         player.getInventory().setHeldItemSlot(2);
-        player.getInventory().setItem(2, ItemUtil.makeWeaponItem(character.getWeapon()));
-        player.getInventory().setItemInOffHand(ItemUtil.makeOffhandItem(character.getOffhand()));
-        player.getInventory().setItem(8, character.getConsumable());
-        player.getInventory().setHelmet(ItemUtil.makeArmorItem(character.getHelm()));
-        player.getInventory().setChestplate(ItemUtil.makeArmorItem(character.getChest()));
-        player.getInventory().setLeggings(ItemUtil.makeArmorItem(character.getLegs()));
-        player.getInventory().setBoots(ItemUtil.makeArmorItem(character.getBoots()));
-        Bukkit.getScheduler().runTaskLater(SimpleRPG.getInstance(), ()-> player.teleport(ConfigManager.getNewStartLocation()), 1);
+        Bukkit.getScheduler().runTaskLater(SimpleRPG.getInstance(), ()-> {
+            player.teleport(ConfigManager.getNewStartLocation());
+            player.getInventory().setItem(2, ItemUtil.makeWeaponItem(character.getWeapon()));
+            player.getInventory().setItemInOffHand(ItemUtil.makeOffhandItem(character.getOffhand()));
+            player.getInventory().setItem(8, character.getConsumable());
+            player.getInventory().setHelmet(ItemUtil.makeArmorItem(character.getHelm()));
+            player.getInventory().setChestplate(ItemUtil.makeArmorItem(character.getChest()));
+            player.getInventory().setLeggings(ItemUtil.makeArmorItem(character.getLegs()));
+            player.getInventory().setBoots(ItemUtil.makeArmorItem(character.getBoots()));
+        }, 1);
     }
 
 }

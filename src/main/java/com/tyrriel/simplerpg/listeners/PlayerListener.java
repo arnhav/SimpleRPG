@@ -10,9 +10,11 @@ import com.tyrriel.simplerpg.systems.playerui.CompassDisplay;
 import com.tyrriel.simplerpg.systems.playerui.ScoreboardManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.event.player.*;
@@ -60,6 +62,14 @@ public class PlayerListener implements Listener {
         player.setLevel(0);
         player.setExp(0);
         ScoreboardManager.hideScoreboard(player);
+    }
+
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event){
+        Player player = event.getPlayer();
+        if (player.getGameMode() != GameMode.CREATIVE){
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
