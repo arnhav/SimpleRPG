@@ -1,8 +1,11 @@
 package com.tyrriel.simplerpg.systems.combat;
 
+import com.tyrriel.simplerpg.SimpleRPG;
+import com.tyrriel.simplerpg.packetwrappers.WrapperPlayServerAnimation;
 import com.tyrriel.simplerpg.systems.characters.CharacterManager;
 import com.tyrriel.simplerpg.systems.characters.RPGCharacter;
 import com.tyrriel.simplerpg.systems.items.RPGItem;
+import com.tyrriel.simplerpg.systems.items.types.ItemType;
 import com.tyrriel.simplerpg.systems.items.types.WeaponType;
 import com.tyrriel.simplerpg.util.ParticleEffectManager;
 import org.bukkit.*;
@@ -64,7 +67,7 @@ public class CombatListeners implements Listener {
                     if (weaponType == WeaponType.HAND_CROSSBOW || weaponType == WeaponType.BOW){
 
                     }
-                    else if (weaponType == WeaponType.WAND || weaponType == WeaponType.STAFF){
+                    else if (weaponType == WeaponType.WAND){
 
                     } else {
                         if (weaponType == WeaponType.DAGGER){
@@ -75,6 +78,28 @@ public class CombatListeners implements Listener {
                     }
                 } else {
                     ParticleEffectManager.doPhysicalAttack(player, 0.75);
+                }
+                if (character.getOffhand() != null){
+                    if (RPGItem.getItemType(character.getOffhand()) == ItemType.WEAPON){
+                        Bukkit.getScheduler().runTaskLater(SimpleRPG.getInstance(), ()->{
+                            WeaponType type = RPGItem.getWeaponType(character.getOffhand());
+                            if (type == WeaponType.HAND_CROSSBOW){
+
+                            } else {
+                                if (type == WeaponType.DAGGER) {
+                                    ParticleEffectManager.doPhysicalAttack(player, 1);
+                                } else {
+                                    ParticleEffectManager.doPhysicalAttack(player, 1.5);
+                                }
+                                WrapperPlayServerAnimation packet = new WrapperPlayServerAnimation();
+                                packet.setEntityID(player.getEntityId());
+                                packet.setAnimation(3);
+                                for (Player online : Bukkit.getOnlinePlayers()) {
+                                    packet.sendPacket(online);
+                                }
+                            }
+                        }, 5);
+                    }
                 }
                 player.setCooldown(material, cooldown * 20);
             } else {
