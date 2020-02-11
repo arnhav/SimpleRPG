@@ -67,23 +67,7 @@ public class PlayerListener implements Listener {
         Player player = event.getPlayer();
         if (CharacterManager.characters.containsKey(player)){
             event.setCancelled(true);
-        }
-    }
 
-    @EventHandler
-    public void onDrop(PlayerDropItemEvent event){
-        Player player = event.getPlayer();
-        if (CharacterManager.characters.containsKey(player)){
-            event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onSwapHands(PlayerSwapHandItemsEvent event){
-        Player player = event.getPlayer();
-        if (CharacterManager.characters.containsKey(player)){
-            event.setCancelled(true);
-            InteractableUtil.checkForInteractable(player);
         }
     }
 

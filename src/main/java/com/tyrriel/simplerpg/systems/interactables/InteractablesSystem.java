@@ -6,6 +6,8 @@ public class InteractablesSystem {
 
     public InteractablesSystem(JavaPlugin plugin){
         new InteractablesMonitor(plugin);
+
+        plugin.getServer().getPluginManager().registerEvents(new InteractablesListener(), plugin);
     }
 
 }
