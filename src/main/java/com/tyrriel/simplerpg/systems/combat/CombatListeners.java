@@ -53,7 +53,8 @@ public class CombatListeners implements Listener {
         Player player = event.getPlayer();
         Action action = event.getAction();
         RPGCharacter character = CharacterManager.characters.get(player);
-        if (character != null && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK)){
+        if (character != null && (action == Action.LEFT_CLICK_AIR || action == Action.LEFT_CLICK_BLOCK) &&
+        player.getCooldown(player.getInventory().getItemInMainHand().getType()) == 0){
             int cooldown = 1;
             if (character.getWeapon() != null){
                 WeaponType weaponType = RPGItem.getWeaponType(character.getWeapon());
