@@ -8,12 +8,6 @@ commands:
   class:
     description: Class selection
     usage: /class
-  addexp:
-    description: Admin Command
-    usage: /addexp <player> <amount>
-  setmoney:
-    description: Admin Command
-    usage: /setmoney <player> <amount>
-  additem:
-    description: Admin Command
-    usage: /additem <player> <id>
+  character:
+    description: Admin Character Command
+    usage: /character [addexp|setmoney|additem] <player> <number>

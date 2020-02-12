@@ -1,7 +1,7 @@
 package com.tyrriel.simplerpg;
 
 import com.tyrriel.simplerpg.commands.ClassCommand;
-import com.tyrriel.simplerpg.commands.CommandHandler;
+import com.tyrriel.simplerpg.commands.CharacterCommand;
 import com.tyrriel.simplerpg.systems.characters.CharactersSystem;
 import com.tyrriel.simplerpg.listeners.PlayerListener;
 import com.tyrriel.simplerpg.systems.combat.CombatSystem;
@@ -36,9 +36,7 @@ public final class SimpleRPG extends JavaPlugin {
 
         // Commands
         getCommand("class").setExecutor(new ClassCommand());
-        getCommand("addexp").setExecutor(new CommandHandler());
-        getCommand("setmoney").setExecutor(new CommandHandler());
-        getCommand("additem").setExecutor(new CommandHandler());
+        getCommand("character").setExecutor(new CharacterCommand());
     }
 
     @Override
